@@ -17,7 +17,7 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication  {
 	@PostDeploy
 	public void startup(ProcessEngine engine) {
 		this.processEngine = engine;
-	    System.out.println("\n\n --------->process engine name:" + processEngine.getName());
+	    System.out.println("\n\n --------->process engine name:" + processEngine.getName()+"\n");
 		starteProzess();
 	}
 
@@ -26,13 +26,14 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication  {
 		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 		RuntimeService runtimeService = engine.getRuntimeService();
 		ProcessInstance instance = runtimeService.startProcessInstanceByKey("springPA","adi1");
-		System.out.println("\n ---------> Instance erzeugt: " + instance.getId());
+		System.out.println("\n ---------> Instance erzeugt: " + instance.getId() + "\n");
 		runtimeService.signalEventReceived("adisSignal");
-		System.out.println("\n ---------> Signal gesendet!");
+		System.out.println("\n ---------> Signal gesendet! \n");
 	}
 	  
 	@PreUndeploy
 	public void stopAndUndeploy() {
-		  System.out.println("\n\n ---------->stop and shutdown process application now");
+		  System.out.println("\n\n ---------->stop and shutdown process application now\n" +
+				  "\n");
 	}
 }
