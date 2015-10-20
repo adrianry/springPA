@@ -11,7 +11,7 @@ public class Transaktion implements JavaDelegate {
 	  private final Logger LOGGER = Logger.getLogger(LoggerDelegate.class.getName());
 	  
 	  public void execute(DelegateExecution execution) throws Exception {
-		  LOGGER.info("\n ******************************************************* \n Transaktion.class ist ausgeloest worden. \n ******************************************************* \n");
+		  LOGGER.info("\n ******************************************************* \n Error erzeugt, starte Kompensation \n ******************************************************* \n");
 		  throw new BpmnError("ADIS_ERROR");
 	  }
 

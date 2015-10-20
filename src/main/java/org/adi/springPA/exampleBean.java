@@ -16,8 +16,10 @@ public class exampleBean {
     }
 
     public void setInvoked(boolean invoked) {
+
         this.invoked = invoked;
         System.out.println(getClass().getName() + " set invoked=" + invoked);
+        throw new Error("Unser Fehler");
     }
 
 }

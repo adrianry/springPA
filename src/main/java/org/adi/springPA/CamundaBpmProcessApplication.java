@@ -25,10 +25,11 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication  {
 	public void starteProzess(){
 		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 		RuntimeService runtimeService = engine.getRuntimeService();
-		ProcessInstance instance = runtimeService.startProcessInstanceByKey("springPA","adi1");
+		ProcessInstance instance = runtimeService.startProcessInstanceByKey("springPA","nixkey");
 		System.out.println("\n ---------> Instance erzeugt: " + instance.getId() + "\n");
 		runtimeService.signalEventReceived("adisSignal");
 		System.out.println("\n ---------> Signal gesendet! \n");
+		System.out.println("\n ---------> Methode starteProzess fertig! \n");
 	}
 	  
 	@PreUndeploy
