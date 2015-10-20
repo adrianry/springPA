@@ -19,7 +19,7 @@ public class exampleBean {
 
         this.invoked = invoked;
         System.out.println(getClass().getName() + " set invoked=" + invoked);
-        throw new Error("Unser Fehler");
+      //  throw new Error("Unser Fehler");
     }
 
 }
