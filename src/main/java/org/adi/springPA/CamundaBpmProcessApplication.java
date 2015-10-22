@@ -35,7 +35,11 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication  {
 		System.out.println("\n ---------> Aufwachen und User Task erledigen! \n");
 		TaskService taskservice = engine.getTaskService();
 		Task task = taskservice.createTaskQuery().processInstanceId(instance.getId()).singleResult();
-		taskservice.complete(task.getId());
+		task.setOwner("demo");
+		task.setAssignee("demo");
+		System.out.println("\n ---------> Task Owner: "+ task.getOwner() +" \n");
+		System.out.println("\n ---------> Task Assignee: "+ task.getAssignee() +" \n");
+	//	taskservice.complete(task.getId());
 		System.out.println("\n ---------> Task erledigt und Methode starteProzess fertig! \n");
 	}
 	  
