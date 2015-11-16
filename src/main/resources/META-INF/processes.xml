@@ -8,7 +8,7 @@
     <properties>
       <property name="isDeleteUponUndeploy">false</property>
       <property name="isScanForProcessDefinitions">true</property>
-      <property name="history">full</property>
+      <property name="history">audit</property>
     </properties>
   </process-archive>
 
