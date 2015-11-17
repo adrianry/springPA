@@ -22,4 +22,9 @@ public class exampleBean {
       //  throw new Error("Unser Fehler");
     }
 
+    public boolean coffeeTemp() {
+        //coffee is too hot
+        return false;
+    }
+
 }
