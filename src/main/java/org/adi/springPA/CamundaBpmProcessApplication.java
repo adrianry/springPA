@@ -19,17 +19,29 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication  {
 	@PostDeploy
 	public void startup(ProcessEngine engine) throws InterruptedException {
 		this.processEngine = engine;
-	    System.out.println("\n\n --------->process engine name:" + processEngine.getName()+"\n");
-		starteProzess();
+	    System.out.println("\n\n --------->process engine up with name:" + processEngine.getName()+"\n");
+		
+	    //Starte Prozessinstanzen
+	    //*************************
+	      //starteProzess();
+			starteSimple();
 	}
 
 
+	public void starteSimple() throws InterruptedException {
+		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+		RuntimeService runtimeService = engine.getRuntimeService();
+
+		ProcessInstance instance = runtimeService.startProcessInstanceByKey("simple-process","easy");
+	}
+	
 	public void starteProzess() throws InterruptedException {
 		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 		RuntimeService runtimeService = engine.getRuntimeService();
+		
 		ProcessInstance instance = runtimeService.startProcessInstanceByKey("springPA","nixkey");
 		System.out.println("\n ---------> Instance erzeugt: " + instance.getId() + "\n");
-		//runtimeService.signalEventReceived("adisSignal");
+		runtimeService.signalEventReceived("adisSignal");
 		System.out.println("\n ---------> Signal gesendet! Schlafe fuer 30 sekunden \n");
 		Thread.sleep(30000);
 		System.out.println("\n ---------> Aufwachen und User Task erledigen! \n");
@@ -39,7 +51,7 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication  {
 		task.setAssignee("demo");
 		System.out.println("\n ---------> Task Owner: "+ task.getOwner() +" \n");
 		System.out.println("\n ---------> Task Assignee: "+ task.getAssignee() +" \n");
-	//	taskservice.complete(task.getId());
+		taskservice.complete(task.getId());
 		System.out.println("\n ---------> Task erledigt und Methode starteProzess fertig! \n");
 	}
 	  
