@@ -8,10 +8,7 @@
     <properties>
       <property name="isDeleteUponUndeploy">false</property>
       <property name="isScanForProcessDefinitions">true</property>
-<<<<<<< HEAD
-=======
       <property name="history">audit</property>
->>>>>>> origin/master
     </properties>
   </process-archive>
 
