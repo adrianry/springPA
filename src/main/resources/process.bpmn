@@ -26,13 +26,12 @@
         <bpmn2:flowNodeRef>BoundaryEvent_5</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>ServiceTask_10</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>EndEvent_1</bpmn2:flowNodeRef>
-        <bpmn2:flowNodeRef>ServiceTask_11</bpmn2:flowNodeRef>
-        <bpmn2:flowNodeRef>ParallelGateway_2</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>BoundaryEvent_3</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>ServiceTask_9</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>IntermediateCatchEvent_3</bpmn2:flowNodeRef>
         <bpmn2:flowNodeRef>IntermediateThrowEvent_2</bpmn2:flowNodeRef>
-        <bpmn2:flowNodeRef>EndEvent_2</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>ParallelGateway_2</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>ServiceTask_11</bpmn2:flowNodeRef>
       </bpmn2:lane>
     </bpmn2:laneSet>
     <bpmn2:exclusiveGateway id="InclusiveGateway_1">
@@ -142,31 +141,16 @@
       <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
     </bpmn2:serviceTask>
     <bpmn2:sequenceFlow id="SequenceFlow_7" name="" sourceRef="ServiceTask_2" targetRef="InclusiveGateway_1"/>
-    <bpmn2:serviceTask id="ServiceTask_10" camunda:delegateExpression="${loggerDelegate}" name="Transaktions Kompensation erledigt" isForCompensation="true">
-      <bpmn2:outgoing>SequenceFlow_24</bpmn2:outgoing>
-    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="ServiceTask_10" camunda:delegateExpression="${loggerDelegate}" name="Transaktions Kompensation erledigt" isForCompensation="true"/>
     <bpmn2:endEvent id="EndEvent_1" name="Ende">
       <bpmn2:incoming>SequenceFlow_31</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:serviceTask id="ServiceTask_11" camunda:delegateExpression="${loggerDelegate}" name="Letzter Schritt - Parallele zweige wieder vereint">
-      <bpmn2:incoming>SequenceFlow_30</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_31</bpmn2:outgoing>
-    </bpmn2:serviceTask>
-    <bpmn2:sequenceFlow id="SequenceFlow_31" name="" sourceRef="ServiceTask_11" targetRef="EndEvent_1"/>
-    <bpmn2:exclusiveGateway id="ParallelGateway_2">
-      <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
-      <bpmn2:incoming>SequenceFlow_25</bpmn2:incoming>
-      <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_30</bpmn2:outgoing>
-    </bpmn2:exclusiveGateway>
-    <bpmn2:sequenceFlow id="SequenceFlow_30" name="" sourceRef="ParallelGateway_2" targetRef="ServiceTask_11"/>
     <bpmn2:boundaryEvent id="BoundaryEvent_3" name="Catch Error" attachedToRef="ServiceTask_9">
       <bpmn2:outgoing>SequenceFlow_14</bpmn2:outgoing>
       <bpmn2:errorEventDefinition id="_ErrorEventDefinition_4" errorRef="Error_1"/>
     </bpmn2:boundaryEvent>
     <bpmn2:serviceTask id="ServiceTask_9" camunda:delegateExpression="${transaktion}" name="Create Error Schritt">
       <bpmn2:incoming>SequenceFlow_26</bpmn2:incoming>
-      <bpmn2:outgoing>SequenceFlow_25</bpmn2:outgoing>
     </bpmn2:serviceTask>
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_3" name="Warte 60s">
       <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
@@ -178,17 +162,23 @@
     <bpmn2:sequenceFlow id="SequenceFlow_26" name="" sourceRef="IntermediateCatchEvent_3" targetRef="ServiceTask_9"/>
     <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="Transaction_1" targetRef="IntermediateCatchEvent_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_14" name="" sourceRef="BoundaryEvent_3" targetRef="IntermediateThrowEvent_2"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_25" name="" sourceRef="ServiceTask_9" targetRef="ParallelGateway_2"/>
     <bpmn2:intermediateThrowEvent id="IntermediateThrowEvent_2" name="Kompensiere">
       <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_22</bpmn2:outgoing>
       <bpmn2:compensateEventDefinition id="_CompensateEventDefinition_3" waitForCompletion="false"/>
     </bpmn2:intermediateThrowEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_22" name="" sourceRef="IntermediateThrowEvent_2" targetRef="ParallelGateway_2"/>
-    <bpmn2:endEvent id="EndEvent_2">
-      <bpmn2:incoming>SequenceFlow_24</bpmn2:incoming>
-    </bpmn2:endEvent>
-    <bpmn2:sequenceFlow id="SequenceFlow_24" name="" sourceRef="ServiceTask_10" targetRef="EndEvent_2"/>
+    <bpmn2:parallelGateway id="ParallelGateway_2">
+      <bpmn2:incoming>SequenceFlow_23</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_22</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_30</bpmn2:outgoing>
+    </bpmn2:parallelGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_30" name="" sourceRef="ParallelGateway_2" targetRef="ServiceTask_11"/>
+    <bpmn2:serviceTask id="ServiceTask_11" camunda:delegateExpression="${loggerDelegate}" name="Letzter Schritt - Parallele zweige wieder vereint">
+      <bpmn2:incoming>SequenceFlow_30</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_31</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_31" name="" sourceRef="ServiceTask_11" targetRef="EndEvent_1"/>
     <bpmn2:association id="Association_3" sourceRef="BoundaryEvent_5" targetRef="ServiceTask_10"/>
   </bpmn2:process>
   <bpmn2:signal id="Signal_1" name="adisSignal"/>
@@ -426,7 +416,7 @@
       <bpmndi:BPMNShape id="_BPMNShape_BoundaryEvent_7" bpmnElement="BoundaryEvent_5">
         <dc:Bounds height="36.0" width="36.0" x="852.0" y="631.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="22.0" width="82.0" x="829.0" y="672.0"/>
+          <dc:Bounds height="22.0" width="82.0" x="792.0" y="695.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_20" bpmnElement="ServiceTask_10">
@@ -437,7 +427,7 @@
         <di:waypoint xsi:type="dc:Point" x="936.0" y="671.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_21" bpmnElement="ServiceTask_11">
-        <dc:Bounds height="80.0" width="100.0" x="1464.0" y="508.0"/>
+        <dc:Bounds height="80.0" width="100.0" x="1440.0" y="507.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_ParallelGateway_2" bpmnElement="ParallelGateway_1">
         <dc:Bounds height="50.0" width="50.0" x="1188.0" y="237.0"/>
@@ -462,35 +452,33 @@
           <dc:Bounds height="6.0" width="6.0" x="1260.0" y="263.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_ParallelGateway_3" bpmnElement="ParallelGateway_2" isMarkerVisible="true">
-        <dc:Bounds height="50.0" width="50.0" x="1380.0" y="522.0"/>
+      <bpmndi:BPMNShape id="_BPMNShape_ParallelGateway_3" bpmnElement="ParallelGateway_2">
+        <dc:Bounds height="50.0" width="50.0" x="1332.0" y="522.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="0.0" width="0.0" x="1352.0" y="522.0"/>
+          <dc:Bounds height="0.0" width="0.0" x="1304.0" y="522.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_23" bpmnElement="SequenceFlow_23" sourceElement="_BPMNShape_ServiceTask_23" targetElement="_BPMNShape_ParallelGateway_3">
         <di:waypoint xsi:type="dc:Point" x="1484.0" y="303.0"/>
         <di:waypoint xsi:type="dc:Point" x="1483.0" y="453.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1405.0" y="453.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1405.0" y="522.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1357.0" y="453.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1357.0" y="522.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="6.0" width="6.0" x="1481.0" y="318.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_30" bpmnElement="SequenceFlow_30" sourceElement="_BPMNShape_ParallelGateway_3" targetElement="_BPMNShape_ServiceTask_21">
-        <di:waypoint xsi:type="dc:Point" x="1430.0" y="547.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1447.0" y="547.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1447.0" y="548.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1464.0" y="548.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1382.0" y="547.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1440.0" y="547.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="6.0" width="6.0" x="1456.0" y="548.0"/>
+          <dc:Bounds height="6.0" width="6.0" x="1409.0" y="547.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_31" bpmnElement="SequenceFlow_31" sourceElement="_BPMNShape_ServiceTask_21" targetElement="BPMNShape_EndEvent_1">
-        <di:waypoint xsi:type="dc:Point" x="1564.0" y="548.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1540.0" y="547.0"/>
         <di:waypoint xsi:type="dc:Point" x="1596.0" y="547.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="6.0" width="6.0" x="1570.0" y="548.0"/>
+          <dc:Bounds height="6.0" width="6.0" x="1546.0" y="547.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_23" bpmnElement="ServiceTask_12">
@@ -532,25 +520,14 @@
           <dc:Bounds height="6.0" width="6.0" x="1153.0" y="627.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_25" bpmnElement="SequenceFlow_25" sourceElement="_BPMNShape_ServiceTask_19" targetElement="_BPMNShape_ParallelGateway_3">
-        <di:waypoint xsi:type="dc:Point" x="1156.0" y="547.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1380.0" y="547.0"/>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_22" bpmnElement="SequenceFlow_22" sourceElement="_BPMNShape_IntermediateThrowEvent_3" targetElement="_BPMNShape_ParallelGateway_3">
         <di:waypoint xsi:type="dc:Point" x="1260.0" y="631.0"/>
         <di:waypoint xsi:type="dc:Point" x="1320.0" y="631.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1405.0" y="631.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1405.0" y="572.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1357.0" y="631.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1357.0" y="572.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="6.0" width="6.0" x="1359.0" y="631.0"/>
+          <dc:Bounds height="6.0" width="6.0" x="1354.0" y="626.0"/>
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_4" bpmnElement="EndEvent_2">
-        <dc:Bounds height="36.0" width="36.0" x="1086.0" y="670.0"/>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_24" bpmnElement="SequenceFlow_24" sourceElement="_BPMNShape_ServiceTask_20" targetElement="_BPMNShape_EndEvent_4">
-        <di:waypoint xsi:type="dc:Point" x="1036.0" y="688.0"/>
-        <di:waypoint xsi:type="dc:Point" x="1086.0" y="688.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

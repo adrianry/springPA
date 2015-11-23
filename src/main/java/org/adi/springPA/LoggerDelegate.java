@@ -20,7 +20,7 @@ public class LoggerDelegate implements JavaDelegate {
   
   public void execute(DelegateExecution execution) throws Exception {
     
-	//Query im RepoService um das zur aktuellen Instanz gehörende Diagram zu finden.
+	//Query im RepoService um das zur aktuellen Instanz gehÃ¶rende Diagram zu finden.
 	processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(execution.getProcessDefinitionId()).singleResult();
 	 
     LOGGER.info("\n \n ************************************************************************************************************** " +

@@ -29,8 +29,6 @@
     <bpmn2:callActivity id="CallActivity_1" name="Subprocess" calledElement="simple-subprocess">
       <bpmn2:extensionElements>
         <camunda:in businessKey="#{execution.processBusinessKey}"/>
-        <camunda:in variables="all"/>
-        <camunda:out variables="all"/>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
@@ -56,11 +54,11 @@
       <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
     </bpmn2:serviceTask>
     <bpmn2:sequenceFlow id="SequenceFlow_8" name="" sourceRef="ServiceTask_4" targetRef="IntermediateCatchEvent_2"/>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" name="warte 30s">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" name="warte 20s">
       <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
       <bpmn2:timerEventDefinition id="_TimerEventDefinition_5">
-        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">PT30S</bpmn2:timeDuration>
+        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">PT20S</bpmn2:timeDuration>
       </bpmn2:timerEventDefinition>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_9" name="" sourceRef="IntermediateCatchEvent_2" targetRef="EndEvent_2"/>
